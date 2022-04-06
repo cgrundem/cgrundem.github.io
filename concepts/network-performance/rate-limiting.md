@@ -27,6 +27,27 @@ The token bucket implementation involves tokens associated with a client and app
 
 Here is the general conceptual algorithm for a token bucket implementation:
 
-    1. 
+    1. A token is added
+    2. The bucket has a limit on how much tokens can be stored
+    3. The bucket has a limit on how much tokens can be forwarded every second (burstiness)
+    4. If the bucket is full, the request is not forwarded
+    5. If the bucket is not full, the request is forwarded, and a token is removed from the bucket
 
+### Leaky bucket
+
+The leaky bucket implementation uses a fixed capacity bucket which "leaks" its contents over time.
+
+Here is the general conceptual algorithm for a leaky bucket implementation:
+
+    1. A fixed capcacity bucket leaks at a fixed rate
+    2. If the bucket is empty, it stops leaking
+    3. If a specific amount of "water" can be added to the bucket, the request is forwarded
+    4. If a specific amount of "water" cannot be added to the bucket, the request is not forwarded
+
+A leaky bucket can be thought of and implemented as a FIFO queue. When a request arrives, if there is room on the queue it is appended to the queue, otherwise it is discarded.
+
+![Leaky bucket](/assets/images/leaky-bucket-as-a-queue.png "Leaky bucket as a FIFO queue")
+
+
+### Fixed window
 
